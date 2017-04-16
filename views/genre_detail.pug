@@ -1,0 +1,21 @@
+extends layout
+
+block content
+  h1 
+    |Genre #{genre.name}
+  
+  ul
+    each book in genre_books
+      li   
+        a(href=book.url) #{book.title}
+        | 
+        | #{book.summary}
+        |
+        
+    else
+      There are no books of given genre.
+           
+           
+           
+
+      

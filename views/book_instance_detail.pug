@@ -1,0 +1,17 @@
+extends layout
+
+block content
+  h1 ID: #{bookinstancedetails._id}
+  
+  p #[strong Title :] #{nameofbook}
+  p #[strong Imprint :] #{bookinstancedetails.imprint}
+  p #[strong Status :] #{bookinstancedetails.status}
+  if bookinstancedetails.status == 'Available'
+    
+  else   
+    p #[strong Due-date :] #{bookinstancedetails.due_back_formatted}
+    
+           
+           
+
+      
