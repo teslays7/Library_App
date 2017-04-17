@@ -1,5 +1,6 @@
 var BookInstance = require('../models/bookinstance');
 var Book = require('../models/book')
+var async = require('async');
 // Display list of all BookInstances
 exports.bookinstance_list = function(req, res, next) {
     BookInstance.find()
@@ -81,12 +82,23 @@ exports.bookinstance_create_post = function(req, res, next) {
 
 // Display BookInstance delete form on GET
 exports.bookinstance_delete_get = function(req, res, next) {
-    res.send('NOT IMPLEMENTED: BookInstance delete GET');
+    BookInstance.findById(req.params.id)
+    .populate('book')
+    .exec(function(err,results){
+        if(err){return next(err);}
+        //else
+        res.render('bookinstance_delete',{title: 'Delete the book instance', bookinstance: results });
+    });
 };
 
 // Handle BookInstance delete on POST
 exports.bookinstance_delete_post = function(req, res, next) {
-    res.send('NOT IMPLEMENTED: BookInstance delete POST');
+    req.checkBody('bookinstanceid', 'BookInstance id must exist').notEmpty();
+    BookInstance.findByIdAndRemove(req.body.bookinstanceid, function deleteBookInstance(err) {
+        if (err) { return next(err); }
+        //Success - got to author list
+        res.redirect('/catalog/bookinstances');
+    });
 };
 
 // Display BookInstance update form on GET
